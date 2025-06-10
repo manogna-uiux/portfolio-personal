@@ -109,9 +109,18 @@ const ProgressFill = styled.div<{ percentage: number }>`
   transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
-type SkillCategory = 'dev' | 'design' | 'ai';
+interface Skill {
+  name: string;
+  percentage: number;
+}
 
-const skillsData = {
+interface SkillsData {
+  dev: Skill[];
+  design: Skill[];
+  ai: Skill[];
+}
+
+const skillsData: SkillsData = {
   design: [
     { name: 'Figma', percentage: 95 },
     { name: 'Adobe XD', percentage: 90 },
@@ -143,61 +152,35 @@ const Skills = () => {
   const progressBarsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const container = containerRef.current;
-    const categories = categoriesRef.current;
-    const progressBars = progressBarsRef.current;
-
-    if (container && categories) {
-      // Animate categories
-      categoriesRef.current.forEach((category, index) => {
-        if (!category) return;
-
-        gsap.fromTo(
-          category,
-          {
-            y: 50,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            delay: index * 0.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: category,
-              start: "top bottom-=100",
-              end: "top center",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
       });
+    }, {
+      threshold: 0.2,
+      rootMargin: '-100px'
+    });
 
-      // Animate progress bars
-      progressBarsRef.current.forEach((bar, index) => {
-        if (!bar) return;
-        
-        const percentage = Object.values(skillsData).flat()[index]?.percentage || 0;
-        
-        gsap.to(bar, {
-          width: `${percentage}%`,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: bar,
-            start: "top bottom-=100",
-            end: "top center",
-            toggleActions: "play none none reverse"
-          }
-        });
-      });
+    categoriesRef.current.forEach(ref => {
+      if (ref) {
+        observer.observe(ref);
+      }
+    });
 
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      };
-    }
+    return () => {
+      observer.disconnect();
+    };
   }, []);
+
+  const setCategoryRef = (index: number) => (el: HTMLDivElement | null) => {
+    categoriesRef.current[index] = el;
+  };
+
+  const setProgressBarRef = (index: number) => (el: HTMLDivElement | null) => {
+    progressBarsRef.current[index] = el;
+  };
 
   return (
     <SkillsContainer ref={containerRef}>
@@ -206,18 +189,18 @@ const Skills = () => {
         <img src={Spotlight} alt="Spotlight" className='absolute mt-[-12em] opacity-70 mix-blend-difference' />
       </HeadingContainer>
       <Content>
-        <Category ref={el => (categoriesRef.current[0] = el)} style={{ marginTop: '8rem' }}>
+        <Category ref={setCategoryRef(0)} style={{ marginTop: '8rem' }}>
           <CategoryTitle>Development</CategoryTitle>
           <SkillList>
             {skillsData.dev.map((skill, index) => (
-              <SkillItem key={index}>
+              <SkillItem key={skill.name}>
                 <SkillHeader>
                   <SkillName>{skill.name}</SkillName>
                   <SkillPercentage>{skill.percentage}%</SkillPercentage>
                 </SkillHeader>
                 <ProgressBar percentage={skill.percentage}>
                   <ProgressFill 
-                    ref={el => (progressBarsRef.current[index] = el)}
+                    ref={setProgressBarRef(index)}
                     percentage={skill.percentage} 
                   />
                 </ProgressBar>
@@ -226,18 +209,18 @@ const Skills = () => {
           </SkillList>
         </Category>
 
-        <Category ref={el => (categoriesRef.current[1] = el)}>
+        <Category ref={setCategoryRef(1)}>
           <CategoryTitle>Design</CategoryTitle>
           <SkillList>
             {skillsData.design.map((skill, index) => (
-              <SkillItem key={index}>
+              <SkillItem key={skill.name}>
                 <SkillHeader>
                   <SkillName>{skill.name}</SkillName>
                   <SkillPercentage>{skill.percentage}%</SkillPercentage>
                 </SkillHeader>
                 <ProgressBar percentage={skill.percentage}>
                   <ProgressFill 
-                    ref={el => (progressBarsRef.current[index + skillsData.dev.length] = el)}
+                    ref={setProgressBarRef(index + skillsData.dev.length)}
                     percentage={skill.percentage} 
                   />
                 </ProgressBar>
@@ -246,18 +229,18 @@ const Skills = () => {
           </SkillList>
         </Category>
 
-        <Category ref={el => (categoriesRef.current[2] = el)} style={{ marginTop: '8rem' }}>
+        <Category ref={setCategoryRef(2)} style={{ marginTop: '8rem' }}>
           <CategoryTitle>AI</CategoryTitle>
           <SkillList>
             {skillsData.ai.map((skill, index) => (
-              <SkillItem key={index}>
+              <SkillItem key={skill.name}>
                 <SkillHeader>
                   <SkillName>{skill.name}</SkillName>
                   <SkillPercentage>{skill.percentage}%</SkillPercentage>
                 </SkillHeader>
                 <ProgressBar percentage={skill.percentage}>
                   <ProgressFill 
-                    ref={el => (progressBarsRef.current[index + skillsData.dev.length + skillsData.design.length] = el)}
+                    ref={setProgressBarRef(index + skillsData.dev.length + skillsData.design.length)}
                     percentage={skill.percentage} 
                   />
                 </ProgressBar>
