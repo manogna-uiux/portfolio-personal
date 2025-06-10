@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import vanGrid from '../assets/Van Grid2.png';
-import noise from '../assets/noise.png';
+import noise from '../assets/Noise.png';
 import star from '../assets/Star 22.png';
 
 const BackgroundContainer = styled.div`
