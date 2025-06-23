@@ -13,8 +13,10 @@ const Nav = styled.nav<{ $isScrolled: boolean }>`
   position: sticky;
   top: 0;
   padding-top: 1.4em;
+  padding-bottom: 1.4em;
   z-index: 200;
   transition: all 0.3s ease;
+  max-width: 100vw;
 
   &::before {
     content: '';
@@ -24,25 +26,25 @@ const Nav = styled.nav<{ $isScrolled: boolean }>`
     width: 100%;
     height: 100%;
     pointer-events: none;
-    backdrop-filter: ${props => props.$isScrolled ? 'blur(4px)' : 'none'};
+    backdrop-filter: ${props => props.$isScrolled ? 'blur(8px)' : 'none'};
     mask: linear-gradient(black, black, transparent);
     transition: all 0.3s ease;
   }
 `;
 
 const NavContainer = styled.div`
-  max-width: 1560px;
+  width: 90vw;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 1rem 0rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: 1000;
 
   @media (max-width: 768px) {
     padding: 1rem;
-    align-items: center;
   }
 `;
 
@@ -97,25 +99,13 @@ const LogoImage = styled(Link)`
   }
 `;
 
-const NavLinks = styled.div<{ $isOpen: boolean }>`
+const NavLinks = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-start;
+  gap: 2rem;
+  align-items: center;
 
   @media (max-width: 768px) {
-    display: ${props => props.$isOpen ? 'flex' : 'none'};
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: #000;
-    padding: 1rem;
-    flex-direction: column;
     gap: 1rem;
-    align-items: flex-start;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    min-width: 200px;
   }
 `;
 
@@ -129,7 +119,6 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
   position: relative;
   transition: all 0.2s ease;
   padding: 4px 0;
-  width: 120px;
 
   &:hover {
     color: #f0f0f0;
@@ -144,7 +133,6 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
     left: 0;
     background-color: #f0f0f0;
     transition: width 0.3s ease;
-    display: none;
   }
 
   &:hover::after {
@@ -152,83 +140,13 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(240, 240, 240, 0.1);
-    
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-`;
-
-const HamburgerButton = styled.button<{ $isOpen: boolean }>`
-  display: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  @media (max-width: 768px) {
-    display: block;
-  }
-
-  span {
-    display: block;
-    width: 100%;
-    height: 1.5px;
-    background: #f0f0f0;
-    position: absolute;
-    left: 0;
-    transition: all 0.3s ease;
-
-    &:nth-child(1) {
-      top: ${props => props.$isOpen ? '50%' : '30%'};
-      transform: ${props => props.$isOpen ? 'rotate(45deg)' : 'rotate(0)'};
-    }
-
-    &:nth-child(2) {
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: ${props => props.$isOpen ? '0' : '1'};
-    }
-
-    &:nth-child(3) {
-      top: ${props => props.$isOpen ? '50%' : '70%'};
-      transform: ${props => props.$isOpen ? 'rotate(-45deg)' : 'rotate(0)'};
-    }
-  }
-`;
-
-const Overlay = styled.div<{ $isOpen: boolean }>`
-  display: none;
-  
-  @media (max-width: 768px) {
-    display: ${props => props.$isOpen ? 'block' : 'none'};
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 198;
+    font-size: 0.8rem;
   }
 `;
 
 const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -240,25 +158,9 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Close menu when location changes
-    setIsMenuOpen(false);
-    
-    // Prevent body scroll when menu is open
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen, location]);
-
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
-    setIsMenuOpen(false); // Close menu on navigation
+    
     const element = document.getElementById(targetId);
     if (element) {
       const navHeight = 80;
@@ -279,10 +181,6 @@ const Navbar = () => {
     }
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
     <Nav $isScrolled={isScrolled}>
       <NavContainer>
@@ -290,7 +188,7 @@ const Navbar = () => {
         <LogoImage to="/">
           <img src={logo} alt="Logo" />
         </LogoImage>
-        <NavLinks $isOpen={isMenuOpen}>
+        <NavLinks>
           <NavLink
             to="/#resume" 
             $isActive={location.pathname === '/' && location.hash === '#resume'}
@@ -306,13 +204,7 @@ const Navbar = () => {
             Contact
           </NavLink>
         </NavLinks>
-        <HamburgerButton $isOpen={isMenuOpen} onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </HamburgerButton>
       </NavContainer>
-      <Overlay $isOpen={isMenuOpen} onClick={() => setIsMenuOpen(false)} />
     </Nav>
   );
 };

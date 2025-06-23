@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutContainer = styled.section`
-  padding: 2rem;
-  margin-top: 12rem;
+  min-height: 70vh;
+  margin-top: 8rem;
   position: relative;
   overflow: visible;
   z-index: 100;

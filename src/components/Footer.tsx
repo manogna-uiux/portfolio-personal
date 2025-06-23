@@ -3,45 +3,59 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBehance, faLinkedin, faDribbble, faMedium } from '@fortawesome/free-brands-svg-icons';
 
 const FooterContainer = styled.footer`
-  padding: 4rem 2rem;
-  background: rgba(0, 0, 0, 0.2);
+  padding: 2rem 2rem;
+  margin-top: 8rem;
+  background: rgba(0, 0, 0);
   position: relative;
   overflow: hidden;
+  max-width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 100;
+  border-top: 1px solid rgba(240, 240, 240, 0.1);
 `;
 
 const Content = styled.div`
-  max-width: 1200px;
   margin: 0 auto;
+  width: 90vw;
+  max-width: 1800px;
   display: flex;
   flex-direction: column;
   gap: 3rem;
 `;
 
-const TopSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(240, 240, 240, 0.1);
+const BottomSection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+  }
 `;
 
-const Logo = styled.div`
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: rgba(240, 240, 240, 1);
-  letter-spacing: 0.6px;
+const Copyright = styled.p`
+  font-family: 'Fg', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(240, 240, 240, 0.6);
+  text-align: right;
 
-  .italic-text {
-    font-family: 'Fg', sans-serif;
-    font-weight: 100;
-    font-style: italic;
-    letter-spacing: 0;
+  @media (max-width: 768px) {
+    text-align: center;
   }
 `;
 
 const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;
+  justify-content: flex-start;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SocialLink = styled.a`
@@ -55,43 +69,11 @@ const SocialLink = styled.a`
   }
 `;
 
-const BottomSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Copyright = styled.p`
-  font-family: 'Fg', sans-serif;
-  font-size: 0.9rem;
-  color: rgba(240, 240, 240, 0.6);
-`;
-
-const Links = styled.div`
-  display: flex;
-  gap: 2rem;
-`;
-
-const Link = styled.a`
-  font-family: 'Fg', sans-serif;
-  font-size: 0.9rem;
-  color: rgba(240, 240, 240, 0.6);
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: rgba(240, 240, 240, 1);
-  }
-`;
-
 const Footer = () => {
   return (
     <FooterContainer>
       <Content>
-        <TopSection>
-          <Logo>
-            manu<span className="italic-text">namburi</span>
-          </Logo>
+        <BottomSection>
           <SocialLinks>
             <SocialLink href="https://behance.net" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faBehance} />
@@ -106,16 +88,9 @@ const Footer = () => {
               <FontAwesomeIcon icon={faMedium} />
             </SocialLink>
           </SocialLinks>
-        </TopSection>
-        <BottomSection>
           <Copyright>
             © {new Date().getFullYear()} Manu Namburi. All rights reserved.
           </Copyright>
-          <Links>
-            <Link href="/privacy">Privacy Policy</Link>
-            <Link href="/terms">Terms of Service</Link>
-            <Link href="/cookies">Cookie Policy</Link>
-          </Links>
         </BottomSection>
       </Content>
     </FooterContainer>

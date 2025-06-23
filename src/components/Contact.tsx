@@ -1,77 +1,121 @@
 import styled from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { faBehance, faLinkedin, faDribbble, faMedium } from '@fortawesome/free-brands-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import contImage from '../assets/ghj.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactContainer = styled.section`
-  min-height: 100vh;
-  padding: 0 2rem;
-  background: rgba(0, 0, 0, 0.2);
+  min-height: 80vh;
+  margin-top: 20rem;
   position: relative;
   overflow: hidden;
-  margin-top: 12rem;
-  max-width: 90vw;
+  width: 90vw;
+  max-width: 1536px;
   margin-left: auto;
   margin-right: auto;
+  z-index: 100;
+  background: linear-gradient(to middle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
 
   @media (max-width: 768px) {
-    max-width: 100vw;
+    width: 90vw;
     padding: 0 1rem;
+    margin-top: 8rem;
   }
 `;
 
 const Content = styled.div`
-  max-width: 90vw;
+  width: 90vw;
+  max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   position: relative;
   z-index: 100;
+  align-items: end;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
 
   @media (max-width: 768px) {
-    max-width: 100vw;
+    max-width: 90vw;
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 `;
 
-const LeftColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+const TextColumn = styled.div`
+  border-radius: 8px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
-const RightColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const SectionHeading = styled.h2`
+const CalloutText = styled.div`
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: rgba(240, 240, 240, 1);
   margin-bottom: 1rem;
+  text-align: left;
+  line-height: 1.3;
+  max-width: 520px;
+
+  @media (max-width: 1024px) {
+    text-align: center;
+    max-width: 100%;
+    font-size: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
 `;
 
-const Description = styled.p`
-  font-family: 'Fg', sans-serif;
-  font-size: 1rem;
-  color: rgba(240, 240, 240, 0.64);
-  line-height: 1.8;
-  margin-bottom: 2rem;
+const ContImage = styled.img`
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin-top: 4rem;
+  border-radius: 4px;
+  mix-blend-mode: lighten;
+
+  @media (max-width: 1024px) {
+    margin: 2rem auto 0;
+    max-width: 400px;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 300px;
+  }
 `;
 
 const ContactInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 10rem;
+
+  @media (max-width: 1024px) {
+    margin-bottom: 3rem;
+    align-items: center;
+  }
 `;
 
 const ContactItem = styled.div`
@@ -92,212 +136,176 @@ const ContactItem = styled.div`
     color: rgba(240, 240, 240, 0.6);
     font-size: 1.2rem;
   }
-`;
 
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 2rem;
-`;
-
-const SocialLink = styled.a`
-  color: rgba(240, 240, 240, 0.6);
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: rgba(240, 240, 240, 1);
-    transform: translateY(-5px);
+  @media (max-width: 1024px) {
+    justify-content: center;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const InputGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-family: 'Fg', sans-serif;
-  font-size: 0.9rem;
-  color: rgba(240, 240, 240, 0.8);
-`;
-
-const Input = styled.input`
-  background: rgba(240, 240, 240, 0.1);
-  border: 1px solid rgba(240, 240, 240, 0.2);
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  color: rgba(240, 240, 240, 0.8);
-  font-family: 'Fg', sans-serif;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: rgba(240, 240, 240, 0.4);
-    background: rgba(240, 240, 240, 0.15);
-  }
-`;
-
-const TextArea = styled.textarea`
-  background: rgba(240, 240, 240, 0.1);
-  border: 1px solid rgba(240, 240, 240, 0.2);
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  color: rgba(240, 240, 240, 0.8);
-  font-family: 'Fg', sans-serif;
-  font-size: 1rem;
-  min-height: 150px;
-  resize: vertical;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: rgba(240, 240, 240, 0.4);
-    background: rgba(240, 240, 240, 0.15);
-  }
-`;
-
-const SubmitButton = styled.button`
-  background: transparent;
-  border: 1px solid rgba(240, 240, 240, 0.2);
-  border-radius: 2rem;
-  padding: 0.75rem 2rem;
-  color: rgba(240, 240, 240, 0.8);
-  font-family: 'Fg', sans-serif;
-  font-size: 1rem;
+const CopyButton = styled.button`
+  background: none;
+  border: none;
+  color: rgba(240, 240, 240, 0.4);
+  font-size: 0.6rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  align-self: flex-start;
+  padding: 0.25rem;
+  border-radius: 4px;
+  outline: none;
 
   &:hover {
+    color: rgba(240, 240, 240, 0.8);
     background: rgba(240, 240, 240, 0.1);
-    border-color: rgba(240, 240, 240, 0.4);
-    transform: translateY(-2px);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.copied {
+    color: #4ade80;
+  }
+`;
+
+const Toast = styled.div<{ show: boolean }>`
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: rgba(0, 0, 0, 0.9);
+  color: #4ade80;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  font-family: 'Fg', sans-serif;
+  font-size: 0.9rem;
+  z-index: 1000;
+  transform: translateY(${props => props.show ? '0' : '-150%'});
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+`;
+
+const LetsBuildText = styled.div`
+  font-family: var(--font-display);
+  font-size: 9rem;
+  color: rgba(240, 240, 240, 1);
+  text-align: left;
+  line-height: 1.1;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  @media (max-width: 1024px) {
+    text-align: center;
+    font-size: rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 6rem;
   }
 `;
 
 const Contact = () => {
-  const leftRef = useRef<HTMLDivElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const columnsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
-    const left = leftRef.current;
-    const right = rightRef.current;
-
-    if (left && right) {
-      gsap.fromTo(
-        left,
-        {
-          x: -100,
-          opacity: 0
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: left,
-            start: "top bottom-=100",
-            end: "top center",
-            toggleActions: "play none none reverse"
-          }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
-      );
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '-100px'
+    });
 
-      gsap.fromTo(
-        right,
-        {
-          x: 100,
-          opacity: 0
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          scrollTrigger: {
-            trigger: right,
-            start: "top bottom-=100",
-            end: "top center",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-    }
+    columnsRef.current.forEach(ref => {
+      if (ref) {
+        observer.observe(ref);
+      }
+    });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      observer.disconnect();
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
+  // Cleanup toast on component unmount
+  useEffect(() => {
+    return () => {
+      setShowToast(false);
+    };
+  }, []);
+
+  const setColumnRef = (index: number) => (el: HTMLDivElement | null) => {
+    columnsRef.current[index] = el;
+  };
+
+  const copyToClipboard = async (text: string, type: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setToastMessage(`${type} copied to clipboard!`);
+      setShowToast(true);
+      
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   return (
-    <ContactContainer id="contact">
-      <Content>
-        <LeftColumn ref={leftRef}>
-          <SectionHeading>Get in Touch</SectionHeading>
-          <Description>
-            I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
-          </Description>
-          <ContactInfo>
-            <ContactItem>
-              <FontAwesomeIcon icon={faEnvelope} />
-              <span>manu@example.com</span>
-            </ContactItem>
-            <ContactItem>
-              <FontAwesomeIcon icon={faPhone} />
-              <span>+1 (555) 123-4567</span>
-            </ContactItem>
-            <ContactItem>
-              <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <span>San Francisco, CA</span>
-            </ContactItem>
-          </ContactInfo>
-          <SocialLinks>
-            <SocialLink href="https://behance.net" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faBehance} />
-            </SocialLink>
-            <SocialLink href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faLinkedin} />
-            </SocialLink>
-            <SocialLink href="https://dribbble.com" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faDribbble} />
-            </SocialLink>
-            <SocialLink href="https://medium.com" target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faMedium} />
-            </SocialLink>
-          </SocialLinks>
-        </LeftColumn>
-        <RightColumn ref={rightRef}>
-          <Form onSubmit={handleSubmit}>
-            <InputGroup>
-              <Label htmlFor="name">Name</Label>
-              <Input type="text" id="name" required />
-            </InputGroup>
-            <InputGroup>
-              <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" required />
-            </InputGroup>
-            <InputGroup>
-              <Label htmlFor="message">Message</Label>
-              <TextArea id="message" required />
-            </InputGroup>
-            <SubmitButton type="submit">Send Message</SubmitButton>
-          </Form>
-        </RightColumn>
-      </Content>
-    </ContactContainer>
+    <>
+      <ContactContainer ref={containerRef}>
+        <Content>
+          <TextColumn ref={setColumnRef(0)}>
+            <CalloutText>
+              Breathe Life into your ideas with Functionality & Creativity
+            </CalloutText>
+            <ContImage src={contImage} alt="Contact" />
+          </TextColumn>
+
+          <TextColumn ref={setColumnRef(1)}>
+            <ContactInfo>
+              <ContactItem>
+                <FontAwesomeIcon icon={faEnvelope} />
+                <span>manogna.design@gmail.com</span>
+                <CopyButton onClick={() => copyToClipboard('manogna.design@gmail.com', 'Email')}>
+                  <FontAwesomeIcon icon={faCopy} size='xs' />
+                </CopyButton>
+              </ContactItem>
+              <ContactItem>
+                <FontAwesomeIcon icon={faPhone} />
+                <span>+91 95350 86399</span>
+                <CopyButton onClick={() => copyToClipboard('+919535086399', 'Phone number')}>
+                  <FontAwesomeIcon icon={faCopy} size='xs'/>
+                </CopyButton>
+              </ContactItem>
+              <ContactItem>
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+                <span>Right Now: India</span>
+              </ContactItem>
+            </ContactInfo>
+            <LetsBuildText>
+              Let's Build!
+            </LetsBuildText>
+          </TextColumn>
+        </Content>
+      </ContactContainer>
+      
+      {showToast && (
+        <Toast show={showToast}>
+          {toastMessage}
+        </Toast>
+      )}
+    </>
   );
 };
 

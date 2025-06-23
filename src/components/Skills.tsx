@@ -6,11 +6,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const SkillsContainer = styled.section`
-  min-height: 100vh;
-  padding: 0 2rem;
+  min-height: 70vh;
+  margin-top: 8rem;
   position: relative;
   overflow: hidden;
-  margin-top: 12rem;
   width: 90vw;
   max-width: 1536px;
   margin-left: auto;
@@ -19,7 +18,6 @@ const SkillsContainer = styled.section`
 
   @media (max-width: 768px) {
     width: 90vw;
-    padding: 0 1rem;
     margin-top: 8rem;
   }
 `;
@@ -33,8 +31,13 @@ const SectionHeading = styled.h2`
   font-family: var(--font-display);
   font-size: 2rem;
   color: rgba(240, 240, 240, 1);
-  margin-bottom: 3rem;
+  margin-bottom: 6rem;
   text-align: center;
+  letter-spacing: 0.5px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 4rem;
+  }
 `;
 
 const Content = styled.div`
@@ -67,13 +70,13 @@ const Category = styled.div`
   border: 1px solid rgba(240, 240, 240, 0.1);
   border-radius: 8px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  letter-spacing: 0.5px;
 
   &:hover {
-    border-color: rgba(240, 240, 240, 0.2);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    border-color: rgba(240, 240, 240, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
     transform: translateY(-2px);
   }
 
@@ -88,9 +91,10 @@ const Category = styled.div`
 const CategoryTitle = styled.h3`
   font-family: var(--font-display);
   font-size: 1.25rem;
-  color: rgba(240, 240, 240, 0.64);
+  color: rgba(240, 240, 240, 0.8);
   margin-bottom: 2.5rem;
   text-align: center;
+  letter-spacing: 1px;
 `;
 
 const SkillList = styled.div`
@@ -252,7 +256,7 @@ const Skills = () => {
         <SectionHeading>Expertise</SectionHeading>
       </HeadingContainer>
       <Content>
-        <Category ref={setCategoryRef(0)}>
+        <Category ref={setCategoryRef(0)} style={{ marginTop: '4rem' }}>
           <CategoryTitle>Development</CategoryTitle>
           <SkillList>
             {skillsData.dev.map((skill, index) => (
@@ -292,7 +296,7 @@ const Skills = () => {
           </SkillList>
         </Category>
 
-        <Category ref={setCategoryRef(2)}>
+        <Category ref={setCategoryRef(2)} style={{ marginTop: '4rem' }}>
           <CategoryTitle>AI</CategoryTitle>
           <SkillList>
             {skillsData.ai.map((skill, index) => (
