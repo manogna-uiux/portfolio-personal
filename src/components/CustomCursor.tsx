@@ -10,6 +10,10 @@ const CursorDot = styled.div`
   pointer-events: none;
   z-index: 9999;
   transition: transform 0.1s ease;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const CursorCircle = styled.div`
@@ -21,6 +25,10 @@ const CursorCircle = styled.div`
   pointer-events: none;
   z-index: 9998;
   transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const CustomCursor = () => {

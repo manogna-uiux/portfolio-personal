@@ -1,42 +1,55 @@
 import styled from 'styled-components';
 import hero from '../assets/hero.png';
-import spotlight from '../assets/Spotlight.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBehance, faLinkedin, faDribbble, faMedium } from '@fortawesome/free-brands-svg-icons';
-import { useEffect, useRef } from 'react';
 
 const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow: hidden;
+  overflow: visible;
   z-index: 100;
-  width: 450px;
   text-align: center;
+  max-width: 450px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 800px;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+  }
 `;
 
 const TextLine = styled.h2`
   font-family: var(--font-display);
   font-size: 5rem;
-  line-height: 1;
+  line-height: 1.15;
   margin: 0;
   overflow: visible;
   padding-bottom: 0.2em;
-`;
+  text-align: left;
 
-const TextMask = styled.div`
-  overflow: hidden;
-  padding-bottom: 0.1em;
-`;
+  @media (max-width: 1024px) {
+    font-size: 4.5rem;
+    text-align: center;
+  }
 
-const TextWrapper = styled.div`
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.visible {
-    transform: translateY(0);
-    opacity: 1;
+  @media (max-width: 768px) {
+    font-size: 3.2rem;
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 3.2rem;
+    text-align: center;
   }
 `;
 
@@ -50,31 +63,34 @@ const ImageContent = styled.div`
   margin: 0 auto;
   
   img {
-    max-width: 240%;
+    max-width: 100rem;
     height: auto;
     padding-top: 100px;
     transform: sharp(100%);
   }
 
-  img:last-child {
-    position: absolute;
-    max-width: 300%;
-    top: 50%;
-    left: 50%;
-    transform-origin: top center;
-    animation: swing 4s ease-in-out infinite, fade 4s ease-in-out infinite;
+  @media (max-width: 1024px) {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    
+    img {
+      max-width: 46rem;
+      padding-top: 50px;
+    }
   }
 
-  @keyframes swing {
-    0% { transform: translate(-50%, -50%) rotate(-5deg); }
-    50% { transform: translate(-50%, -50%) rotate(5deg); }
-    100% { transform: translate(-50%, -50%) rotate(-5deg); }
-  }
-
-  @keyframes fade {
-    0% { opacity: 0.7; }
-    50% { opacity: 1; }
-    100% { opacity: 0.7; }
+  @media (max-width: 768px) {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    
+    img {
+      max-width: 50rem;
+      padding-top: 30px;
+    }
   }
 `;
 
@@ -86,10 +102,28 @@ const BottomSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 2rem;
   padding-bottom: 20px;
-  max-width: 1560px;
+  width: 90vw;
+  max-width: 1800px;
   margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    position: relative;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    position: relative;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+  }
 `;
 
 const Description = styled.p`
@@ -105,6 +139,17 @@ const Description = styled.p`
   .bold-text {
     font-weight: 700;
   }
+
+  @media (max-width: 1024px) {
+    max-width: 520px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    max-width: 520px;
+    text-align: center;
+  }
 `;
 
 const SocialContainer = styled.div`
@@ -113,11 +158,23 @@ const SocialContainer = styled.div`
   align-items: flex-end;
   gap: 1rem;
   z-index: 100;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
 `;
 
 const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const SocialLink = styled.a`
@@ -129,6 +186,22 @@ const SocialLink = styled.a`
   &:hover {
     opacity: 1;
     transform: translateY(-2px);
+  }
+
+  @media (max-width: 1024px) {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    transition: none;
+    
+    &:hover {
+      transform: none;
   }
 `;
 
@@ -159,6 +232,11 @@ const StatusButton = styled.button`
     75% { transform: rotate(2deg); }
     100% { transform: rotate(0deg); }
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
 `;
 
 const BlinkingDot = styled.div`
@@ -173,108 +251,103 @@ const BlinkingDot = styled.div`
     50% { opacity: 0.4; }
     100% { opacity: 1; }
   }
+
+  @media (max-width: 768px) {
+    width: 6px;
+    height: 6px;
+  }
+`;
+
+const RotatingLine = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: rgba(240, 240, 240, 0.64);
+  margin: 0 0.8rem;
+  vertical-align: middle;
+  animation: rotate 2s steps(6) infinite;
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 1024px) {
+    animation: none;
+  }
+
+  @media (max-width: 768px) {
+    animation: none;
+  }
 `;
 
 const HeroContainer = styled.section`
   display: flex;
+  width: 90vw;
+  max-width: 1536px;
+  height: 100vh;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  max-width: 90vw;
+  gap: 0.5rem;
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
-  gap: 2rem;
+  overflow: visible;
 
-  @media (max-width: 768px) {
-    max-width: 100vw;
+  @media (max-width: 1024px) {
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
-    padding: 0 1rem;
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 0;
+    overflow: visible;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem;
     text-align: center;
+    overflow: visible;
   }
 `;
 
 const Hero = () => {
-  const leftTextRef = useRef<HTMLDivElement>(null);
-  const rightTextRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const textWrappers = entry.target.querySelectorAll('.text-wrapper');
-          textWrappers.forEach((wrapper, index) => {
-            setTimeout(() => {
-              wrapper.classList.add('visible');
-            }, index * 300);
-          });
-        }
-      });
-    }, {
-      threshold: 0.2
-    });
-
-    if (leftTextRef.current) {
-      observer.observe(leftTextRef.current);
-    }
-    if (rightTextRef.current) {
-      observer.observe(rightTextRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
     <>
       <HeroContainer>
-        <TextContent ref={leftTextRef} style={{ marginTop: '-24em' }}>
-          <TextMask>
-            <TextWrapper className="text-wrapper">
-              <TextLine>
-                Making
-              </TextLine>
-            </TextWrapper>
-          </TextMask>
-          <TextMask>
-            <TextWrapper className="text-wrapper">
-              <TextLine className="indent-12">
-                Memorable
-              </TextLine>
-            </TextWrapper>
-          </TextMask>
+        <TextContent className="lg:mt-[-32rem]">
+          <TextLine>
+            Making
+            <span className="hidden max-sm:inline lg:inline"><br /></span>
+            <span className="hidden max-sm:hidden lg:inline">&nbsp;&nbsp;</span>
+            <span className="inline max-sm:hidden lg:hidden">&nbsp;</span>
+            Memorable
+          </TextLine>
         </TextContent>
 
         <ImageContent>
           <img src={hero} alt="Hero" />
-          <img src={spotlight} alt="Spotlight" />
         </ImageContent>
 
-        <TextContent ref={rightTextRef}>
-          <TextMask>
-            <TextWrapper className="text-wrapper">
-              <TextLine>
-                Human
-              </TextLine>
-            </TextWrapper>
-          </TextMask>
-          <TextMask>
-            <TextWrapper className="text-wrapper">
-              <TextLine className="indent-12">
-                Experiences
-              </TextLine>
-            </TextWrapper>
-          </TextMask>
+        <TextContent>
+          <TextLine>
+            Human
+            <span className="hidden max-sm:inline lg:inline"><br /></span>
+            <span className="hidden max-sm:hidden lg:inline">&nbsp;&nbsp;</span>
+            <span className="inline max-sm:hidden lg:hidden">&nbsp;</span>
+            Experiences
+          </TextLine>
         </TextContent>
       </HeroContainer>
 
       <BottomSection>
         <Description>
-          I'm a <span className="bold-text">Product Designer</span> and <span className="bold-text">Developer</span> based in India, crafting digital experiences that blend creativity with functionality.
+          Hello <RotatingLine /> I'm a <span className="bold-text text-white">Product Designer</span> specializing in turning complex problems into elegant solutions through thoughtful UX, clean UI, and strategic thinking.
         </Description>
 
         <SocialContainer>

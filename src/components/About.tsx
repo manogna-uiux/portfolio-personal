@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const AboutContainer = styled.section`
   min-height: 70vh;
-  margin-top: 8rem;
+  margin-top: 20rem;
   position: relative;
   overflow: visible;
   z-index: 100;

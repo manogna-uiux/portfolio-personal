@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import About from '../components/About';
 import Skills from '../components/Skills';
+import Hero from '../components/Hero';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -22,6 +23,7 @@ const Container = styled.div`
 const LandingPage = () => {
   return (
     <Container>
+      <Hero />
       <About />
       <Skills />
     </Container>
