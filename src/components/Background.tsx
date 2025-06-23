@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import vanGrid from '../assets/Van Grid2.png';
-//import noise from '../assets/Noise.png';
+import noise from '../assets/Noise.png';
 import star from '../assets/Star 22.png';
 
 const BackgroundContainer = styled.div`
@@ -27,6 +27,7 @@ const Noise = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  background-image: url(${noise});
   background-size: cover;
   background-position: center;
   mix-blend-mode: overlay;
@@ -46,7 +47,7 @@ const Background = () => {
   return (
     <BackgroundContainer>
       <Grid />
-      {/*<Noise />*/}
+      <Noise />
       <StarImage src={star} alt="Star" />
     </BackgroundContainer>
   );
