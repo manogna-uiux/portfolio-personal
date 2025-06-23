@@ -1,5 +1,0 @@
-name = "manu-does-design"
-compatibility_date = "2025-06-23"
-
-[site]
-bucket = "./dist" 
