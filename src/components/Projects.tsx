@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Spotlight from '../assets/Spotlight.png';
+import title2 from '../assets/title2.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -188,8 +189,8 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    image: '/src/assets/title2.png',
-    hoverImage: '/src/assets/title2.png',
+    image: title2,
+    hoverImage: title2,
     align: 'left',
     name: 'NeatProcess',
     description: 'Supply Chain Management Platform',
@@ -199,8 +200,8 @@ const projects: Project[] = [
   },
   {
     id: 2,
-    image: '/src/assets/title2.png',
-    hoverImage: '/src/assets/title2.png',
+    image: title2,
+    hoverImage: title2,
     align: 'right',
     name: 'NeatProcess',
     description: 'Supply Chain Management Platform',
@@ -210,8 +211,8 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    image: '/src/assets/title2.png',
-    hoverImage: '/src/assets/title2.png',
+    image: title2,
+    hoverImage: title2,
     align: 'left',
     name: 'NeatProcess',
     description: 'Supply Chain Management Platform',
@@ -221,8 +222,8 @@ const projects: Project[] = [
   },
   {
     id: 4,
-    image: '/src/assets/title2.png',
-    hoverImage: '/src/assets/title2.png',
+    image: title2,
+    hoverImage: title2,
     align: 'right',
     name: 'NeatProcess',
     description: 'Supply Chain Management Platform',
@@ -232,8 +233,8 @@ const projects: Project[] = [
   },
   {
     id: 5,
-    image: '/src/assets/title2.png',
-    hoverImage: '/src/assets/title2.png',
+    image: title2,
+    hoverImage: title2,
     align: 'left',
     name: 'NeatProcess',
     description: 'Supply Chain Management Platform',
