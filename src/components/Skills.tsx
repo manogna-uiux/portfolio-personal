@@ -2,17 +2,26 @@ import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Spotlight from '../assets/Spotlight.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SkillsContainer = styled.section`
   min-height: 100vh;
   padding: 0 2rem;
-  background: rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
   margin-top: 12rem;
+  width: 90vw;
+  max-width: 1536px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+    padding: 0 1rem;
+    margin-top: 8rem;
+  }
 `;
 
 const HeadingContainer = styled.div`
@@ -29,13 +38,28 @@ const SectionHeading = styled.h2`
 `;
 
 const Content = styled.div`
-  max-width: 1200px;
+  max-width: 90vw;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
+  gap: 6rem;
   position: relative;
   z-index: 100;
+
+  @media (max-width: 1440px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 90vw;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
 `;
 
 const Category = styled.div`
@@ -44,6 +68,21 @@ const Category = styled.div`
   border-radius: 8px;
   padding: 2rem;
   backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+
+  &:hover {
+    border-color: rgba(240, 240, 240, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 const CategoryTitle = styled.h3`
@@ -123,26 +162,26 @@ interface SkillsData {
 const skillsData: SkillsData = {
   design: [
     { name: 'Figma', percentage: 95 },
-    { name: 'Adobe XD', percentage: 90 },
-    { name: 'Sketch', percentage: 85 },
-    { name: 'Illustrator', percentage: 90 },
-    { name: 'Photoshop', percentage: 85 },
-    { name: 'Premiere Pro', percentage: 80 },
-    { name: 'After Effects', percentage: 75 }
+    { name: 'Adobe XD', percentage: 80 },
+    { name: 'Sketch', percentage: 80 },
+    { name: 'Illustrator', percentage: 75 },
+    { name: 'Photoshop', percentage: 75 },
+    { name: 'Premiere Pro', percentage: 60 },
+    { name: 'After Effects', percentage: 50 }
   ],
   dev: [
     { name: 'HTML/CSS', percentage: 95 },
-    { name: 'JavaScript', percentage: 90 },
-    { name: 'React', percentage: 85 },
-    { name: 'TypeScript', percentage: 80 },
-    { name: 'GSAP', percentage: 85 }
+    { name: 'JavaScript', percentage: 80 },
+    { name: 'React', percentage: 70 },
+    { name: 'TypeScript', percentage: 85 },
+    { name: 'GSAP', percentage: 60 }
   ],
   ai: [
-    { name: 'Midjourney', percentage: 95 },
-    { name: 'Cursor', percentage: 90 },
-    { name: 'ChatGPT', percentage: 95 },
-    { name: 'Runway ML', percentage: 85 },
-    { name: 'DALL-E', percentage: 90 }
+    { name: 'Midjourney', percentage: 70 },
+    { name: 'Cursor', percentage: 60 },
+    { name: 'ChatGPT', percentage: 50 },
+    { name: 'Runway ML', percentage: 50 },
+    { name: 'DALL-E', percentage: 40 }
   ]
 };
 
@@ -169,8 +208,33 @@ const Skills = () => {
       }
     });
 
+    // GSAP animations for progress bars
+    const allSkills = [...skillsData.dev, ...skillsData.design, ...skillsData.ai];
+    
+    allSkills.forEach((skill, index) => {
+      const progressBar = progressBarsRef.current[index];
+      if (progressBar) {
+        gsap.fromTo(
+          progressBar,
+          { width: '0%' },
+          {
+            width: `${skill.percentage}%`,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: progressBar,
+              start: 'top bottom-=50',
+              end: 'bottom top+=50',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      }
+    });
+
     return () => {
       observer.disconnect();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
@@ -185,11 +249,10 @@ const Skills = () => {
   return (
     <SkillsContainer ref={containerRef}>
       <HeadingContainer>
-        <SectionHeading>Skills</SectionHeading>
-        <img src={Spotlight} alt="Spotlight" className='absolute mt-[-12em] opacity-70 mix-blend-difference' />
+        <SectionHeading>Expertise</SectionHeading>
       </HeadingContainer>
       <Content>
-        <Category ref={setCategoryRef(0)} style={{ marginTop: '8rem' }}>
+        <Category ref={setCategoryRef(0)}>
           <CategoryTitle>Development</CategoryTitle>
           <SkillList>
             {skillsData.dev.map((skill, index) => (
@@ -229,7 +292,7 @@ const Skills = () => {
           </SkillList>
         </Category>
 
-        <Category ref={setCategoryRef(2)} style={{ marginTop: '8rem' }}>
+        <Category ref={setCategoryRef(2)}>
           <CategoryTitle>AI</CategoryTitle>
           <SkillList>
             {skillsData.ai.map((skill, index) => (

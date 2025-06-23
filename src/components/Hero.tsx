@@ -181,11 +181,20 @@ const HeroContainer = styled.section`
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  max-width: 1440px;
+  max-width: 90vw;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    max-width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem;
+    text-align: center;
+  }
 `;
 
 const Hero = () => {

@@ -15,16 +15,30 @@ const ContactContainer = styled.section`
   position: relative;
   overflow: hidden;
   margin-top: 12rem;
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    max-width: 100vw;
+    padding: 0 1rem;
+  }
 `;
 
 const Content = styled.div`
-  max-width: 1200px;
+  max-width: 90vw;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   position: relative;
   z-index: 100;
+
+  @media (max-width: 768px) {
+    max-width: 100vw;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 `;
 
 const LeftColumn = styled.div`

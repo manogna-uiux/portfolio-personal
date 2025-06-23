@@ -3,9 +3,9 @@ import { createGlobalStyle } from 'styled-components';
 import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 import Background from './components/Background';
 import LandingPage from './pages/LandingPage';
-import ProjectPage from './components/ProjectPage';
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
 import Resume from './pages/Resume';
@@ -13,6 +13,10 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface WindowWithLenis extends Window {
+  lenis?: Lenis;
+}
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -50,10 +54,27 @@ const AppContent = () => {
   const isResumePage = location.pathname === '/resume';
 
   useEffect(() => {
-    // Initialize GSAP ScrollTrigger
+    // Initialize Lenis smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+
+    // Make lenis globally accessible
+    (window as WindowWithLenis).lenis = lenis;
+
+    // Integrate Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      lenis.destroy();
+      delete (window as WindowWithLenis).lenis;
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
@@ -73,11 +94,6 @@ const AppContent = () => {
           </>
         } />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/project1" element={<ProjectPage />} />
-        <Route path="/project2" element={<ProjectPage />} />
-        <Route path="/project3" element={<ProjectPage />} />
-        <Route path="/project4" element={<ProjectPage />} />
-        <Route path="/project5" element={<ProjectPage />} />
       </Routes>
     </>
   );

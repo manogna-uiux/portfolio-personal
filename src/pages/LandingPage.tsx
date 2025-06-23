@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import Hero from '../components/Hero';
-import Projects from '../components/Projects';
 import About from '../components/About';
 import Skills from '../components/Skills';
 
@@ -10,13 +8,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  max-width: 90vw;
+  margin: 0 auto;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 2rem;
+    max-width: 100vw;
+  }
 `;
 
 const LandingPage = () => {
   return (
     <Container>
-      <Hero />
-      <Projects />
       <About />
       <Skills />
     </Container>
